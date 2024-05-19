@@ -28,7 +28,7 @@ export default function NavBar() {
       <Navbar>
         <NavbarBrand>
           <h2 className="font-sans italic font-bold text-xl">
-            Hi I&aposm <span className="text-blue-700">Juan Quintana!</span>
+            Hi I&apos;m <span className="text-blue-700">Juan Quintana!</span>
           </h2>
         </NavbarBrand>
 
@@ -45,7 +45,7 @@ export default function NavBar() {
       <Navbar className="">
         <NavbarBrand>
           <h2 className="font-sans italic font-bold text-xl">
-            Hi I'm <span className="text-blue-700">Juan Quintana!</span>
+            Hi I&apos;m <span className="text-blue-700">Juan Quintana!</span>
           </h2>
         </NavbarBrand>
         <NavbarContent>

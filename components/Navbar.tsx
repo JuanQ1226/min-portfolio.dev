@@ -19,14 +19,16 @@ export default function NavBar() {
     setWidth(width);
   }
   useEffect(() => {
-    window.addEventListener("resize", () => handleResize(window.innerWidth));
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", () => handleResize(window.innerWidth));
+    }
   });
   if (screenWidth < 768) {
     return (
       <Navbar>
         <NavbarBrand>
           <h2 className="font-sans italic font-bold text-xl">
-            Hi I'm <span className="text-blue-700">Juan Quintana!</span>
+            Hi I&aposm <span className="text-blue-700">Juan Quintana!</span>
           </h2>
         </NavbarBrand>
 

@@ -12,16 +12,23 @@ import {
   Button,
   Link,
 } from "@nextui-org/react";
+import { get } from "http";
 
 export default function NavBar() {
-  const [screenWidth, setWidth] = useState(window.innerWidth);
+  function getWidth() {
+    if (typeof window !== "undefined") {
+      return window.innerWidth;
+    } else {
+      return 1080;
+    }
+  }
+
+  const [screenWidth, setWidth] = useState(getWidth());
   function handleResize(width: number) {
     setWidth(width);
   }
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", () => handleResize(window.innerWidth));
-    }
+    window.addEventListener("resize", () => handleResize(getWidth()));
   });
   if (screenWidth < 768) {
     return (

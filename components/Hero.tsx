@@ -25,7 +25,7 @@ export default function Hero() {
       camera.position.z = 200;
 
       // Load the 3D model
-      var model;
+      var model: THREE.Group;
       const loader = new GLTFLoader().setPath("models/earth/");
       loader.load("scene.gltf", async function (gltf) {
         model = gltf.scene;

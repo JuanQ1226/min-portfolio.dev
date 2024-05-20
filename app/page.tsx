@@ -1,7 +1,8 @@
-import Image from "next/image";
-import { Card } from "@nextui-org/react";
+import Hero from "../components/Hero";
 export default function Home() {
   return (
-    <main className="flex justify-center items-center min-h-screen "></main>
+    <main className="">
+      <Hero />
+    </main>
   );
 }

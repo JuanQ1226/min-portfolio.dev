@@ -11,6 +11,7 @@ import {
   NavbarMenuItem,
   Button,
   Link,
+  Image,
 } from "@nextui-org/react";
 import { get } from "http";
 
@@ -23,59 +24,102 @@ export default function NavBar() {
     }
   }
 
-  const [screenWidth, setWidth] = useState(getWidth());
+  const [screenWidth, setWidth] = useState(767);
+
   function handleResize(width: number) {
     setWidth(width);
   }
+
   useEffect(() => {
     window.addEventListener("resize", () => handleResize(getWidth()));
+    handleResize(getWidth());
   });
+
   if (screenWidth < 768) {
     return (
       <Navbar>
-        <NavbarBrand>
-          <h2 className="font-sans italic font-bold text-xl">
+        <NavbarBrand className="gap-1">
+          <Image
+            src={"Juan-logo.png"}
+            alt="Logo"
+            width={40}
+            height={40}
+            className="mix-blend-multiply"
+          />
+          <h2 className="font-sans italic font-semibold text-xl">
             Hi I&apos;m <span className="text-blue-700">Juan Quintana!</span>
           </h2>
         </NavbarBrand>
-
         <NavbarMenuToggle />
         <NavbarMenu>
-          <NavbarMenuItem>About</NavbarMenuItem>
-          <NavbarMenuItem>Projects</NavbarMenuItem>
-          <NavbarMenuItem>Contact</NavbarMenuItem>
+          <NavbarMenuItem>
+            <Button color="default" className="bg-transparent" variant="flat">
+              About Myself
+            </Button>
+          </NavbarMenuItem>
+          <NavbarMenuItem>
+            <Button color="default" className="bg-transparent" variant="flat">
+              Experience
+            </Button>
+          </NavbarMenuItem>
+          <NavbarMenuItem>
+            <Button color="default" className="bg-transparent" variant="flat">
+              Projects
+            </Button>
+          </NavbarMenuItem>
+          <NavbarMenuItem>
+            <Button color="default" className="bg-transparent" variant="flat">
+              Education
+            </Button>
+          </NavbarMenuItem>
+          <NavbarMenuItem>
+            <Button color="default" className="bg-transparent" variant="flat">
+              Contact Me
+            </Button>
+          </NavbarMenuItem>
         </NavbarMenu>
       </Navbar>
     );
   } else {
     return (
-      <Navbar className="">
-        <NavbarBrand>
-          <h2 className="font-sans italic font-bold text-xl">
+      <Navbar>
+        <NavbarBrand className="gap-2">
+          <Image
+            src={"Juan-logo.png"}
+            alt="Logo"
+            width={50}
+            height={50}
+            className="bg-blend-lighten"
+          />
+          <h2 className="font-sans italic font-semibold text-xl">
             Hi I&apos;m <span className="text-blue-700">Juan Quintana!</span>
-          </h2>
+          </h2>{" "}
         </NavbarBrand>
-        <NavbarContent>
+        <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem>
-            <NavbarMenuItem>About</NavbarMenuItem>
+            <Button color="default" className="bg-transparent" variant="flat">
+              About Myself
+            </Button>
+          </NavbarItem>
+          <NavbarItem isActive>
+            <Button color="default" className="bg-transparent" variant="flat">
+              Experience
+            </Button>
           </NavbarItem>
           <NavbarItem>
-            <NavbarMenuItem>Projects</NavbarMenuItem>
+            <Button color="default" className="bg-transparent" variant="flat">
+              Projects
+            </Button>
           </NavbarItem>
           <NavbarItem>
-            <NavbarMenuItem>Contact</NavbarMenuItem>
-          </NavbarItem>
-        </NavbarContent>
-        <NavbarContent>
-          <NavbarItem>
-            <NavbarItem>
-              <Button>My Resume</Button>
-            </NavbarItem>
+            <Button color="default" className="bg-transparent" variant="flat">
+              Education
+            </Button>
           </NavbarItem>
           <NavbarItem>
-            <NavbarItem>
-              <Button as={Link}>MyResume</Button>
-            </NavbarItem>
+            <Button color="default" className="bg-transparent" variant="flat">
+              Contact Me
+            </Button>
           </NavbarItem>
         </NavbarContent>
       </Navbar>

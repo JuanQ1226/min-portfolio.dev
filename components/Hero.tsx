@@ -2,7 +2,8 @@
 import React, { useRef, useEffect, use } from "react";
 
 import * as THREE from "three";
-
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 export default function Hero() {
   const canvas = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -15,21 +16,35 @@ export default function Hero() {
         0.1,
         1000
       );
+      const light = new THREE.AmbientLight(0xffffff);
+      scene.add(light);
       const renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight / 3);
-      renderer.setClearColor(0xffffff, 0);
+
       currentCanvas?.appendChild(renderer.domElement);
-      camera.position.z = 5;
-      const geometry = new THREE.BoxGeometry();
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      const cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
+      camera.position.z = 200;
+
+      // Load the 3D model
+      var model: THREE.Group;
+      const loader = new GLTFLoader().setPath("models/earth/");
+      loader.load("scene.gltf", async function (gltf) {
+        model = gltf.scene;
+
+        // wait until the model can be added to the scene without blocking due to shader compilation
+
+        await renderer.compileAsync(model, camera, scene);
+        model.rotation.x = 0.5;
+        scene.add(model);
+        renderer.render(scene, camera);
+      });
 
       // Render the scene and camera
       renderer.render(scene, camera);
       const animateScene = () => {
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+        if (typeof model !== "undefined") {
+          model.rotation.y += 0.005;
+        }
+
         renderer.render(scene, camera);
         requestAnimationFrame(animateScene);
       };

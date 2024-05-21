@@ -52,7 +52,8 @@ export default function AboutMe() {
             <Divider />
             <div className="flex flex-col items-center ">
               <p className="mb-2 self-start">
-                I've had the chance to apply my skills in the following roles:
+                I&apos;ve had the chance to apply my skills in the following
+                roles:
               </p>
               {Experience.map((exp) => (
                 <Card key={exp.title} className="max-w-lg shadow-none border">

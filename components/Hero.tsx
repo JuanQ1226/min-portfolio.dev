@@ -21,18 +21,22 @@ export default function Hero() {
       let effect = new AsciiEffect(renderer, " .:-+*=%@#", { invert: true });
 
       effect.setSize(window.innerWidth, window.innerHeight / 3);
-      effect.domElement.style.color = "black";
+      effect.domElement.style.color = "blue";
       effect.domElement.style.backgroundColor = "#e0e5eb";
       currentCanvas?.appendChild(effect.domElement);
-      camera.position.z = 2.2;
-      const geometry = new THREE.TorusGeometry();
-      const material = new THREE.MeshStandardMaterial();
+      camera.position.z = 3;
+      const geometryTorus = new THREE.TorusGeometry(2.2, 0.2);
+      const materialTorus = new THREE.MeshPhongMaterial({ flatShading: true });
+      const geometrySphere = new THREE.SphereGeometry(1);
+      const materialTetrax = new THREE.MeshPhongMaterial({ flatShading: true });
       const light1 = new THREE.DirectionalLight(0xffffff, 1.5);
-      const light2 = new THREE.DirectionalLight(0xffffff, 0.5);
-      light2.position.set(-10, -10, -2);
-      light1.position.set(10, 0, 2);
-      const cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
+      const light2 = new THREE.DirectionalLight(0xffffff, 2);
+      light2.position.set(-10, 5, -2);
+      light1.position.set(10, -2, 2);
+      const torus = new THREE.Mesh(geometryTorus, materialTorus);
+      const tetrax = new THREE.Mesh(geometrySphere, materialTetrax);
+      scene.add(torus);
+      scene.add(tetrax);
       scene.add(light1);
       scene.add(light2);
 
@@ -43,11 +47,14 @@ export default function Hero() {
       let start = Date.now();
       const animateScene = () => {
         const tick = Date.now() - start;
-        cube.position.y = Math.sin(tick * 0.0009) * 1.5;
-        cube.position.x = Math.cos(tick * 0.0009) * 1.2;
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+        // cube.position.y = Math.sin(tick * 0.0009) * 1.5;
+        // cube.position.x = Math.cos(tick * 0.0009) * 1.2;
 
+        torus.rotation.x += 0.001;
+        torus.rotation.y += 0.006;
+        tetrax.rotation.x += 0.001;
+        tetrax.rotation.y += 0.006;
+        tetrax.position.y = Math.sin(tick * 0.0009) * 0.2;
         effect.render(scene, camera);
         requestAnimationFrame(animateScene);
       };

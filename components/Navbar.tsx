@@ -35,7 +35,7 @@ export default function NavBar() {
     handleResize(getWidth());
   });
 
-  if (screenWidth < 768) {
+  if (screenWidth < 1000) {
     return (
       <Navbar>
         <NavbarBrand className="gap-1">

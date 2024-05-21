@@ -82,7 +82,7 @@ export default function Hero() {
     <>
       <div ref={canvas} className="">
         <h1 className="absolute z-59 flex w-screen h-1/3 overflow-clip justify-center items-center font-semibold text-4xl">
-          Hero
+          Hi I&apos;m Juan Quintana!
         </h1>
       </div>
       <svg

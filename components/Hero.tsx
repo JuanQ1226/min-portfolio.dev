@@ -28,7 +28,7 @@ export default function Hero() {
         invert: true,
       });
       effect.setSize(window.innerWidth, window.innerHeight / 3);
-      effect.domElement.style.color = "black";
+      effect.domElement.style.color = "gray";
       effect.domElement.style.backgroundColor = "#e0e5eb";
       // Append Ascii Effect to the DOM
       currentCanvas?.appendChild(effect.domElement);
@@ -174,7 +174,14 @@ export default function Hero() {
 
   return (
     <>
-      <div ref={canvas} className="cursor-none"></div>
+      <div ref={canvas} className="cursor-none">
+        <div className=" font-semibold flex-col text-3xl w-screen h-1/3 justify-center items-center flex absolute text-center">
+          <div className="hover:scale-110 hover:backdrop-blur-sm rounded-xl hover:shadow-lg shadow-primary-700  transition-all ease-in-out p-10 hover:border border-primary">
+            <h1>Hi I&apos;m Juan Quintana</h1>
+            <p className=" text-tiny">Welcome to my Website!</p>
+          </div>
+        </div>
+      </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 100 10"

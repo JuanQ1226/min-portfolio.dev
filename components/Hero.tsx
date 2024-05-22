@@ -1,11 +1,13 @@
 "use client";
-import React, { useRef, useEffect, use } from "react";
+import { Spinner } from "@nextui-org/react";
+import React, { useRef, useEffect, useState } from "react";
 
 import * as THREE from "three";
 import { AsciiEffect } from "three/addons/effects/AsciiEffect.js";
 
 export default function Hero() {
   const canvas = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -163,7 +165,7 @@ export default function Hero() {
 
       window.addEventListener("resize", handleResize);
       window.addEventListener("mousemove", handleMouseMove);
-
+      setLoading(false);
       return () => {
         currentCanvas?.removeChild(effect.domElement);
         window.removeEventListener("resize", handleResize);
@@ -174,12 +176,19 @@ export default function Hero() {
 
   return (
     <>
+      {loading && (
+        <div className="w-screen h-1/3 text-center py-28 bg-[#e0e5eb] ">
+          <Spinner size="lg">Loading...</Spinner>
+        </div>
+      )}
       <div ref={canvas} className="cursor-none">
         <div className=" font-semibold flex-col text-3xl w-screen h-1/3 justify-center items-center flex absolute text-center">
-          <div className="lg:hover:scale-110 lg:hover:backdrop-blur-sm rounded-xl lg:hover:shadow-lg shadow-primary-700  transition-all ease-in-out p-10 lg:hover:border border-primary">
-            <h1>Hi I&apos;m Juan Quintana</h1>
-            <p className=" text-tiny">Welcome to my Website!</p>
-          </div>
+          {!loading && (
+            <div className="lg:hover:scale-110 lg:hover:backdrop-blur-sm rounded-xl lg:hover:shadow-lg shadow-primary-700  transition-all ease-in-out p-10 lg:hover:border border-primary">
+              <h1>Hi I&apos;m Juan Quintana</h1>
+              <p className=" text-tiny">Welcome to my Website!</p>
+            </div>
+          )}
         </div>
       </div>
       <svg

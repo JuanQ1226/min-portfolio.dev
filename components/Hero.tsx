@@ -6,39 +6,82 @@ import { AsciiEffect } from "three/addons/effects/AsciiEffect.js";
 
 export default function Hero() {
   const canvas = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
+      // Create the scene
       const currentCanvas = canvas.current;
       const scene = new THREE.Scene();
+      // Create the camera
       const camera = new THREE.PerspectiveCamera(
         70,
         window.innerWidth / (window.innerHeight / 3),
         0.1,
-        1000
+        100
       );
+      // Create the renderer
       const renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight / 3);
-      let effect = new AsciiEffect(renderer, " .:-+*=%@#", { invert: true });
-
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      // Create the effect
+      let effect = new AsciiEffect(renderer, " .:-+*=%@#", {
+        invert: true,
+      });
       effect.setSize(window.innerWidth, window.innerHeight / 3);
-      effect.domElement.style.color = "gray";
+      effect.domElement.style.color = "black";
       effect.domElement.style.backgroundColor = "#e0e5eb";
+      // Append Ascii Effect to the DOM
       currentCanvas?.appendChild(effect.domElement);
-      camera.position.z = 3;
+      camera.position.z = 3.2;
+      // Mouse Trail
+      let mouse = new THREE.Vector3(0, 0, 1);
+      const setPosition = (array: Float32Array) => {
+        for (let i = 0; i < 150; i++) {
+          const i3 = i * 3;
+
+          const x = (i / (150 - 1) - 0.5) * 3;
+          const y = Math.sin(i / 10.5) * 0.5;
+
+          array[i3] = x;
+          array[i3 + 1] = y;
+          array[i3 + 2] = 4;
+        }
+        return array;
+      };
+
+      const trailGeometry = new THREE.BufferGeometry();
+
+      const positions = setPosition(new Float32Array(150 * 3));
+
+      trailGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positions, 3)
+      );
+      const trailMaterial = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.4,
+      });
+      const trailPoints = new THREE.Points(trailGeometry, trailMaterial);
+      scene.add(trailPoints);
+
+      //Toroid and Sphere
       const geometryTorus = new THREE.TorusGeometry(2.2, 0.2);
       const materialTorus = new THREE.MeshPhongMaterial({ flatShading: false });
       const geometrySphere = new THREE.SphereGeometry(1);
-      const materialTetrax = new THREE.MeshPhongMaterial({ flatShading: true });
+      const materialSphere = new THREE.MeshPhongMaterial({ flatShading: true });
+      const torus = new THREE.Mesh(geometryTorus, materialTorus);
+      const sphere = new THREE.Mesh(geometrySphere, materialSphere);
+      // Lights
       const light1 = new THREE.DirectionalLight(0xffffff, 1.5);
       const light2 = new THREE.DirectionalLight(0xffffff, 2);
       light2.position.set(-10, 5, -2);
       light1.position.set(10, -2, 2);
-      const torus = new THREE.Mesh(geometryTorus, materialTorus);
-      const sphere = new THREE.Mesh(geometrySphere, materialTetrax);
+      // Add to scene
       scene.add(torus);
       scene.add(sphere);
       scene.add(light1);
       scene.add(light2);
+      scene.add(trailPoints);
 
       // Render the scene and camera
       effect.render(scene, camera);
@@ -47,15 +90,45 @@ export default function Hero() {
       let start = Date.now();
       const animateScene = () => {
         const tick = Date.now() - start;
+        effect.render(scene, camera);
         torus.rotation.x += 0.001;
         torus.rotation.y += 0.006;
         sphere.rotation.x -= 0.001;
         sphere.rotation.y -= 0.006;
         sphere.position.y = Math.sin(tick * 0.0009) * 0.2;
-        effect.render(scene, camera);
-        requestAnimationFrame(animateScene);
+        for (let i = 0; i < 150; i++) {
+          const i3 = i * 3;
+          const previous = (i - 1) * 3;
+
+          if (i3 === 0) {
+            positions[0] = mouse.x;
+            positions[1] = mouse.y + 0.09;
+            positions[2] = mouse.z;
+          } else {
+            const currentPoint = new THREE.Vector3(
+              positions[i3],
+              positions[i3 + 1],
+              positions[i3 + 2]
+            );
+
+            const previousPoint = new THREE.Vector3(
+              positions[previous],
+              positions[previous + 1],
+              positions[previous + 2]
+            );
+
+            const lerpPoint = currentPoint.lerp(previousPoint, 0.9);
+
+            positions[i3] = lerpPoint.x;
+            positions[i3 + 1] = lerpPoint.y;
+            positions[i3 + 2] = mouse.z;
+          }
+        }
+        trailGeometry.attributes.position.needsUpdate = true;
+        window.requestAnimationFrame(animateScene);
       };
       animateScene();
+      // Resize
       const handleResize = () => {
         const width = window.innerWidth;
         const height = window.innerHeight;
@@ -66,22 +139,42 @@ export default function Hero() {
         effect.setSize(width, height / 3);
       };
 
+      const handleMouseMove = (event: MouseEvent) => {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y =
+          -(
+            event.clientY /
+            (window.innerHeight - (2 * window.innerHeight) / 3)
+          ) *
+            2 +
+          1.46;
+        mouse.z = 1;
+
+        var vector = new THREE.Vector3(mouse.x, mouse.y, mouse.z);
+        vector.unproject(camera);
+        var dir = vector.sub(camera.position).normalize();
+        var distance = -camera.position.z / dir.z;
+        var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+        mouse = pos;
+
+        console.log(mouse);
+      };
+
       window.addEventListener("resize", handleResize);
+      window.addEventListener("mousemove", handleMouseMove);
 
       return () => {
         currentCanvas?.removeChild(effect.domElement);
         window.removeEventListener("resize", handleResize);
+        window.removeEventListener("mousemove", handleMouseMove);
       };
     }
   }, []);
 
   return (
     <>
-      <div ref={canvas} className="">
-        <h1 className="absolute z-59 flex w-screen h-1/3 overflow-clip justify-center items-center font-semibold text-4xl">
-          Hi I&apos;m Juan Quintana!
-        </h1>
-      </div>
+      <div ref={canvas} className="cursor-none"></div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 100 10"

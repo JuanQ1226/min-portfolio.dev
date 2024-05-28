@@ -48,7 +48,7 @@ const icons: any = {
 
 export default function Experiences() {
   return (
-    <section className="items-center flex flex-col gap-8">
+    <section className="items-center flex flex-col gap-8 mb-6">
       <div className="max-w-sm  md:max-w-xl  flex flex-col">
         <div className="text-2xl font-semibold italic mb-4">
           Experience & Skills<span className="text-primary">.</span>

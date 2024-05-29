@@ -2,23 +2,17 @@
 
 import React from "react";
 import {
+  Accordion,
+  AccordionItem,
   Card,
   CardBody,
   CardFooter,
-  CardHeader,
   Chip,
   Divider,
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Experience } from "@/assets/data/experience";
 import { Skills } from "@/assets/data/skills";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import {
   faPython,
   faJava,
@@ -48,7 +42,7 @@ const icons: any = {
 
 export default function Experiences() {
   return (
-    <section className="items-center flex flex-col gap-8 mb-6">
+    <section className="p-6 md:p-10 flex flex-col gap-8 mb-6">
       <div className="max-w-sm  md:max-w-xl  flex flex-col">
         <div className="text-2xl font-semibold italic mb-4">
           Experience & Skills<span className="text-primary">.</span>
@@ -80,39 +74,29 @@ export default function Experiences() {
               I&apos;ve had the chance to apply my skills in the following
               roles:
             </p>
-            <Carousel
-              opts={{ loop: true }}
-              plugins={[Autoplay({ delay: 7000 })]}
-            >
-              <CarouselContent className="bg-white">
-                {Experience.map((exp, index) => (
-                  <CarouselItem key={index} className="flex justify-center">
-                    <Card
-                      key={index}
-                      className="max-w-sm md:max-w-xl shadow-none border"
-                    >
-                      <CardHeader>
-                        <h4 className="font-semibold mr-1">
-                          {exp.title}
-                          {" @"}
-                        </h4>
-                        <p>{exp.company}</p>
-                      </CardHeader>
-                      <Divider />
-                      <CardBody>
-                        <p className="text-sm">{exp.description}</p>
-                      </CardBody>
-                      <Divider />
-                      <CardFooter>
-                        <p className="text-tiny">{exp.date}</p>
-                      </CardFooter>
-                    </Card>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <Accordion>
+              {Experience.map((exp, index) => (
+                <AccordionItem
+                  key={index}
+                  title={
+                    <p>
+                      <b className="font-semibold">{exp.title}</b>
+                      {" @ "} {exp.company}
+                    </p>
+                  }
+                >
+                  <Card key={index} className="shadow-none border">
+                    <CardBody>
+                      <p className="text-sm">{exp.description}</p>
+                    </CardBody>
+                    <Divider />
+                    <CardFooter>
+                      <p className="text-tiny">{exp.date}</p>
+                    </CardFooter>
+                  </Card>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import React from "react";
 export default function AboutMe() {
   return (
     <section className="p-6 lg:p-10 m-auto items-center flex flex-col gap-8">
-      <div className="max-w-xl flex flex-col gap-1">
+      <div className="max-w-3xl flex flex-col gap-1">
         <div>
           <div className="text-2xl font-semibold italic">
             A Bit About Myself<span className="text-primary">.</span>

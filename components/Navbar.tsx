@@ -37,7 +37,7 @@ export default function NavBar() {
 
   return (
     <Navbar>
-      <NavbarBrand className="gap-2">
+      <NavbarBrand className="gap-2" as={Link} href={"/"}>
         <Image
           src={"Juan-logo.png"}
           alt="Logo"
@@ -45,8 +45,8 @@ export default function NavBar() {
           height={50}
           className="bg-blend-lighten"
         />
-        <h2 className="font-sans italic font-semibold text-xl">
-          Hi I&apos;m <span className="text-blue-700">Juan Quintana!</span>
+        <h2 className="font-sans italic font-semibold text-xl text-blue-600">
+          Juanqunintana.dev
         </h2>{" "}
       </NavbarBrand>
     </Navbar>

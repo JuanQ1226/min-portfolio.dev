@@ -11,7 +11,7 @@ export default function Education() {
           </div>
         </div>
         <h3 className="text-lg font-semibold">
-          Computer Science and Engineering ,
+          Computer Science and Engineering
         </h3>
         <h4 className="text-sm font-semibold">
           University of Puertor Rico, Mayaguez

@@ -41,6 +41,7 @@ const icons: any = {
 };
 
 export default function Experiences() {
+  /* Experience and Skill Section Functional Component */
   return (
     <section className="p-6 lg:p-10 m-auto items-center flex flex-col gap-8">
       <div className="max-w-3xl  flex flex-col">
@@ -71,8 +72,8 @@ export default function Experiences() {
           <Divider />
           <div className="flex flex-col items-center ">
             <p className="mb-4 self-start font-semibold">
-              I&apos;ve had the chance to apply my skills in the following
-              roles:
+              I&apos;ve had the chance to apply and develop my skills in the
+              following roles:
             </p>
             <Accordion>
               {Experience.map((exp, index) => (

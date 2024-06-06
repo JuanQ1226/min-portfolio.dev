@@ -98,6 +98,8 @@ export default function Hero() {
         sphere.rotation.x -= 0.001;
         sphere.rotation.y -= 0.006;
         sphere.position.y = Math.sin(tick * 0.0009) * 0.2;
+        torus.position.x = Math.sin(tick * 0.00009) * 2;
+        sphere.position.x = Math.sin(tick * 0.00009) * 2;
         for (let i = 0; i < 150; i++) {
           const i3 = i * 3;
           const previous = (i - 1) * 3;

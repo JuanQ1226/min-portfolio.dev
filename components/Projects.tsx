@@ -12,7 +12,7 @@ export default function Projects() {
           My Projects<span className="text-primary">.</span>
         </div>
 
-        <div className="grid grid-cols-2 items-center gap-5">
+        <div className="md:grid md:grid-cols-2 flex flex-col pt-2 md:pt-0 items-center gap-5">
           <Tilt tiltReverse tiltMaxAngleX={15} tiltMaxAngleY={15}>
             <Image
               alt="maze_generator Image"
@@ -38,7 +38,7 @@ export default function Projects() {
           </div>
         </div>
         <Divider className="my-4" />
-        <div className="grid grid-cols-2 items-center  gap-2">
+        <div className="md:grid md:grid-cols-2 flex flex-col items-center gap-5">
           <div>
             <Link
               showAnchorIcon

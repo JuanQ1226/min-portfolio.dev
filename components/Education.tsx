@@ -4,7 +4,7 @@ import React from "react";
 export default function Education() {
   return (
     <section className="p-4 lg:p-6 m-auto items-center flex flex-col gap-8">
-      <div className="max-w-3xl flex flex-col gap-1">
+      <div className="max-w-3xl xl:max-w-4xl flex flex-col gap-1">
         <div>
           <div className="text-2xl font-semibold italic">
             My Education<span className="text-primary">.</span>

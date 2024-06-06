@@ -7,12 +7,12 @@ import React from "react";
 export default function Projects() {
   return (
     <section className="p-4 lg:p-6 m-auto items-center flex flex-col gap-8">
-      <div className="max-w-3xl flex flex-col flex-grow gap-1">
+      <div className="max-w-3xl xl:max-w-4xl flex flex-col flex-grow gap-1">
         <div className="text-2xl font-semibold italic">
           My Projects<span className="text-primary">.</span>
         </div>
 
-        <div className="md:grid md:grid-cols-2 flex flex-col pt-2 md:pt-0 items-center gap-5">
+        <div className="md:grid md:grid-cols-2 flex flex-col pt-2  items-center gap-5">
           <Tilt tiltReverse tiltMaxAngleX={15} tiltMaxAngleY={15}>
             <Image
               alt="maze_generator Image"

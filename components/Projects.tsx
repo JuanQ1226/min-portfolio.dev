@@ -1,23 +1,27 @@
+"use client";
 import { Divider, Image, Link } from "@nextui-org/react";
+import Tilt from "react-parallax-tilt";
 
 import React from "react";
 
 export default function Projects() {
   return (
-    <section className="p-6 lg:p-10 m-auto items-center flex flex-col gap-8">
+    <section className="p-4 lg:p-6 m-auto items-center flex flex-col gap-8">
       <div className="max-w-3xl flex flex-col flex-grow gap-1">
         <div className="text-2xl font-semibold italic">
           My Projects<span className="text-primary">.</span>
         </div>
 
         <div className="grid grid-cols-2 items-center gap-5">
-          <Image
-            alt="maze_generator Image"
-            height={400}
-            width={400}
-            src={"./briq.png"}
-            className="shadow-md shadow-gray-500 hover:scale-105 transform transition duration-300 ease-in-out"
-          />
+          <Tilt tiltReverse tiltMaxAngleX={15} tiltMaxAngleY={15}>
+            <Image
+              alt="maze_generator Image"
+              height={400}
+              width={400}
+              src={"./briq.png"}
+              className="shadow-md shadow-gray-500 hover:scale-105 transform transition duration-300 ease-in-out"
+            />
+          </Tilt>
           <div>
             <h2 className="text-lg font-semibold">
               Briq (E-commerce for construction materials in PR).
@@ -56,13 +60,15 @@ export default function Projects() {
               using HTML components.
             </div>
           </div>
-          <Image
-            className="hover:scale-105 shadow-md shadow-gray-500 transform transition duration-300 ease-in-out"
-            alt="maze_generator Image"
-            height={400}
-            width={400}
-            src={"./maze_generator.png"}
-          />
+          <Tilt tiltReverse tiltMaxAngleX={15} tiltMaxAngleY={15}>
+            <Image
+              className="hover:scale-105 shadow-md shadow-gray-500 transform transition duration-300 ease-in-out"
+              alt="maze_generator Image"
+              height={400}
+              width={400}
+              src={"./maze_generator.png"}
+            />
+          </Tilt>
         </div>
       </div>
     </section>

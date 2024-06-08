@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Tilt from "react-parallax-tilt";
 import {
   Accordion,
   AccordionItem,
@@ -50,23 +51,29 @@ export default function Experiences() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <div className="">
+          <div className="flex-row flex flex-wrap">
             {Skills.map((skill, index) => (
-              <Chip
-                variant="faded"
+              <Tilt
                 key={index}
-                size="md"
-                className="m-1 shadow-md border-blue-600"
-                startContent={
-                  <FontAwesomeIcon
-                    color="darkblue"
-                    icon={icons[skill.icon]}
-                    className=" items-center text-xs"
-                  />
-                }
+                className="w-fit"
+                tiltMaxAngleX={30}
+                tiltMaxAngleY={30}
               >
-                <h4 className="font-semibold">{skill.skill}</h4>
-              </Chip>
+                <Chip
+                  variant="faded"
+                  size="md"
+                  className="m-1 shadow-md border-blue-600 hover:scale-110 transition-all ease-in-out"
+                  startContent={
+                    <FontAwesomeIcon
+                      color="darkblue"
+                      icon={icons[skill.icon]}
+                      className=" items-center text-xs"
+                    />
+                  }
+                >
+                  <h4 className="font-semibold ">{skill.skill}</h4>
+                </Chip>
+              </Tilt>
             ))}
           </div>
           <Divider />

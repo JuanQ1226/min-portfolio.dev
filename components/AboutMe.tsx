@@ -11,10 +11,12 @@ export default function AboutMe() {
         </div>
         <div>
           <p className="">
-            I am a Computer Science student with a passion for tech, learning
-            and working with others. I think that tech is a great way to help
-            people and make the world a better place. I am always looking for
-            new opportunities to learn and grow.
+            I&apos;m a dedicated and passionate computer science student with a
+            passion for developing software that impacts the life of others.
+            I&apos;m someone who is always looking to learn new things and
+            improve my skills. I also enjoy working with others and
+            collaborating on projects. I&apos;m always looking for new
+            opportunities to grow and develop my skills.
           </p>
         </div>
       </div>

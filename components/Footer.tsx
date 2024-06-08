@@ -54,7 +54,14 @@ export default function Footer() {
           </div>
         </div>
         <div className="text-tiny text-center text-[#6c757d]">
-          Made with ❤️ using Next.js, Three.js and NextUI
+          Made with ❤️ using Next.js, Three.js,{" "}
+          <a
+            className="hover:underline"
+            href="https://github.com/mkosir/react-parallax-tilt"
+          >
+            react-parallax-tilt
+          </a>{" "}
+          and NextUI
         </div>
         <div className=" text-tiny text-center text-[#6c757d]">
           © 2021 Juan Quintana. All rights reserved.

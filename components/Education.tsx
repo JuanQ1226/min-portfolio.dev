@@ -19,6 +19,7 @@ export default function Education() {
         <p className="text-tiny italic">August 2021-2026(exp.)</p>
         <div>
           <ul className="pl-2 list-disc list-inside">
+            <li>GPA: 3.78</li>
             <li>Honor Student.</li>
             <li>
               Relevant Coursework: Data Structures, Introduction to Software

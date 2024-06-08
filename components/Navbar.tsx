@@ -45,9 +45,7 @@ export default function NavBar() {
           height={50}
           className="bg-blend-lighten"
         />
-        <h2 className="font-sans italic font-semibold text-xl text-blue-600">
-          Juanqunintana.dev
-        </h2>{" "}
+        <h2 className="text-xl font-mono text-blue-600">juanqunintana.dev</h2>{" "}
       </NavbarBrand>
     </Navbar>
   );

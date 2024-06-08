@@ -56,13 +56,13 @@ export default function Experiences() {
               <Tilt
                 key={index}
                 className="w-fit"
-                tiltMaxAngleX={30}
-                tiltMaxAngleY={30}
+                tiltMaxAngleX={25}
+                tiltMaxAngleY={25}
               >
                 <Chip
                   variant="faded"
                   size="md"
-                  className="m-1 shadow-md border-blue-600 hover:scale-110 transition-all ease-in-out"
+                  className="m-1 shadow-md border-blue-600  hover:border-blue-400 hover:scale-110 transition-all ease-in-out"
                   startContent={
                     <FontAwesomeIcon
                       color="darkblue"
@@ -71,7 +71,7 @@ export default function Experiences() {
                     />
                   }
                 >
-                  <h4 className="font-semibold ">{skill.skill}</h4>
+                  <h4 className="text-black font-semibold ">{skill.skill}</h4>
                 </Chip>
               </Tilt>
             ))}

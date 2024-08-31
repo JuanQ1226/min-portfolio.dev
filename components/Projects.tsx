@@ -24,7 +24,7 @@ export default function Projects() {
           </Tilt>
           <div>
             <h2 className="text-lg font-semibold">
-              Briq (E-commerce for construction materials in PR).
+              Briq (E-commerce for construction materials in Puerto Rico).
             </h2>
             <div className="text-sm">
               This is a product I&apos;m currently designing and developing with

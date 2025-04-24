@@ -184,7 +184,7 @@ export default function Hero() {
       <div ref={canvas} className="cursor-none">
         <div className=" font-semibold flex-col text-3xl w-screen h-1/3 justify-center items-center flex absolute text-center">
           {!loading && (
-            <div className="lg:hover:scale-110 lg:hover:backdrop-blur-sm rounded-xl lg:hover:shadow-xl shadow-primary-700  transition-all ease-in-out p-10 lg:hover:border border-primary">
+            <div className="p-10">
               <h1>Hi I&apos;m Juan Quintana</h1>
               <p className=" text-tiny">Welcome to my Website!</p>
             </div>

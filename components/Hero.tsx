@@ -156,11 +156,13 @@ export default function Hero() {
       const updateThemeColors = () => {
         const currentTheme = theme === "system" ? systemTheme : theme;
         const isDark = currentTheme === "dark";
-        
+
         // Update ASCII effect colors
         effect.domElement.style.color = isDark ? "#9ca3af" : "#6b7280";
-        effect.domElement.style.backgroundColor = isDark ? "#000000" : "#e0e5eb";
-        
+        effect.domElement.style.backgroundColor = isDark
+          ? "#000000"
+          : "#e0e5eb";
+
         // Update object colors
         objects.forEach((obj, i) => {
           if (i % 2 === 0 && obj.sphereMaterial) {
@@ -177,7 +179,7 @@ export default function Hero() {
       // Store the effect and objects for the theme effect
       updateThemeColorsRef.current = {
         effect,
-        objects
+        objects,
       };
 
       // Render the scene and camera
@@ -294,11 +296,11 @@ export default function Hero() {
       const { effect, objects } = updateThemeColorsRef.current;
       const currentTheme = theme === "system" ? systemTheme : theme;
       const isDark = currentTheme === "dark";
-      
+
       // Update ASCII effect colors
       effect.domElement.style.color = isDark ? "#9ca3af" : "#6b7280";
       effect.domElement.style.backgroundColor = isDark ? "#000000" : "#e0e5eb";
-      
+
       // Update object colors
       objects.forEach((obj: any, i: number) => {
         if (i % 2 === 0 && obj.sphereMaterial) {

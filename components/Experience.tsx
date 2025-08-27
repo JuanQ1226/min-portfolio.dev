@@ -26,6 +26,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faDatabase, faCode } from "@fortawesome/free-solid-svg-icons";
 import Autoplay from "embla-carousel-autoplay";
+import Image from "next/image";
 const icons: any = {
   python: faPython,
   cplusplus: "",
@@ -39,6 +40,14 @@ const icons: any = {
   googlecloud: faGoogle,
   azure: faMicrosoft,
   dsa: faCode,
+};
+
+// Company logos mapping
+const companyLogos: Record<string, string> = {
+  "DRACO Rocketry, Apogee Control Division": "/draco-removebg-preview.png",
+  "CoStar Group": "/costar_group_logo-removebg-preview.png",
+  Google: "/Google__G__logo.svg.png",
+  "Stackz LLC": "/logoStackBW-removebg-preview.png",
 };
 
 export default function Experiences() {
@@ -88,10 +97,26 @@ export default function Experiences() {
                 <AccordionItem
                   key={index}
                   title={
-                    <p>
-                      <b className="font-semibold">{exp.title}</b>
-                      {" @ "} {exp.company}
-                    </p>
+                    <div className="flex items-center gap-3">
+                      {companyLogos[exp.company] && (
+                        <Image
+                          src={companyLogos[exp.company]}
+                          alt={`${exp.company} logo`}
+                          width={32}
+                          height={32}
+                          className={`object-contain rounded-sm ${
+                            exp.company === "Stackz LLC" ||
+                            exp.company === "CoStar Group"
+                              ? "dark:invert"
+                              : ""
+                          }`}
+                        />
+                      )}
+                      <p>
+                        <b className="font-semibold">{exp.title}</b>
+                        {" @ "} {exp.company}
+                      </p>
+                    </div>
                   }
                 >
                   <Card key={index} className="shadow-none border">

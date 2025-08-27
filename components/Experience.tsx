@@ -62,16 +62,17 @@ export default function Experiences() {
                 <Chip
                   variant="faded"
                   size="md"
-                  className="m-1 shadow-md border-blue-600  hover:border-blue-400 hover:scale-110 transition-all ease-in-out"
+                  className="m-1 shadow-md border-blue-600 hover:border-blue-400 hover:scale-110 transition-all ease-in-out"
                   startContent={
                     <FontAwesomeIcon
-                      color="darkblue"
                       icon={icons[skill.icon]}
-                      className=" items-center text-xs"
+                      className="items-center text-xs text-primary"
                     />
                   }
                 >
-                  <h4 className="text-black font-semibold ">{skill.skill}</h4>
+                  <h4 className="text-foreground font-semibold">
+                    {skill.skill}
+                  </h4>
                 </Chip>
               </Tilt>
             ))}

@@ -15,25 +15,28 @@ export default function Projects() {
         <div className="md:grid md:grid-cols-2 flex flex-col pt-2  items-center gap-5">
           <Tilt tiltReverse tiltMaxAngleX={15} tiltMaxAngleY={15}>
             <Image
-              alt="maze_generator Image"
+              alt="zorzal Image"
               height={400}
               width={400}
-              src={"./briq.png"}
+              src={"./zorzal.png"}
               className="shadow-md shadow-gray-500 hover:scale-105 transform transition duration-300 ease-in-out"
             />
           </Tilt>
           <div>
-            <h2 className="text-lg font-semibold">
-              Briq (E-commerce for construction materials in Puerto Rico).
-            </h2>
+            <h2 className="text-lg font-semibold">Zorzal</h2>
             <div className="text-sm">
-              This is a product I&apos;m currently designing and developing with
-              Stackz. This platform will allow construction material providers
-              in PR to have a centralized portal to post their products. This
-              will allow contractors to easily view and purchase the products
-              that providers have available. The platform is a web app
-              implemented in Next.js, Postgresql and uses Vercel for data
-              storage and hosting services.
+              Zorzal is a B2B construction materials marketplace that connects
+              contractors with suppliers, reducing industry fragmentation and
+              streamlining procurement. Enables contractors to generate RFQs,
+              negotiate with suppliers in real time, and complete payments
+              through the platform, reducing manual workflows and ensuring
+              transaction security. Built on a modern cloud-native architecture
+              leveraging AWS Amplify Gen 2, Auth0 authentication, DynamoDB, and
+              Braintree payment integration, with a roadmap toward microservices
+              and Kubernetes scalability. Currently participating in the Fase I
+              Intensive incubator program, receiving mentorship and support to
+              accelerate product development, validate the business model, and
+              prepare for market launch.
             </div>
           </div>
         </div>

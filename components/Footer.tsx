@@ -10,12 +10,12 @@ export default function Footer() {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 100 10"
         preserveAspectRatio="none"
-        className="w-full h-6 bg-white block"
+        className="w-full h-6 bg-content1 block"
       >
-        <polygon className="fill-[#e0e5eb]" points="0 10 0 0 100 10" />
+        <polygon className="fill-content1" points="0 10 0 0 100 10" />
       </svg>
-      <div className="bg-[#e0e5eb] w-screen bottom-0 left-0 pb-1">
-        <div className="flex flex-row gap-4  container mx-auto py-4">
+      <div className="bg-content1 w-screen bottom-0 left-0 pb-1">
+        <div className="flex flex-row gap-4 container mx-auto py-4 text-content1-foreground">
           <div>
             <div className="text-lg font-semibold italic mb-4">Contact Me.</div>
             <div className="flex flex-col gap-2">
@@ -53,7 +53,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="text-tiny text-center text-[#6c757d]">
+        <div className="text-tiny text-center text-content1-foreground">
           Made with ❤️ using Next.js, Three.js,{" "}
           <a
             className="hover:underline"
@@ -63,7 +63,7 @@ export default function Footer() {
           </a>{" "}
           and NextUI
         </div>
-        <div className=" text-tiny text-center text-[#6c757d]">
+        <div className="text-tiny text-center text-content1-foreground">
           © 2021 Juan Quintana. All rights reserved.
         </div>
       </div>

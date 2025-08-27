@@ -13,7 +13,9 @@ import {
   Link,
   Image,
 } from "@nextui-org/react";
+import { ThemeSwitch } from "./ThemeSwitch";
 import { get } from "http";
+import { useTheme } from "next-themes";
 
 export default function NavBar() {
   function getWidth() {
@@ -25,7 +27,7 @@ export default function NavBar() {
   }
 
   const [screenWidth, setWidth] = useState(767);
-
+  const { theme, setTheme, systemTheme } = useTheme();
   function handleResize(width: number) {
     setWidth(width);
   }
@@ -43,10 +45,17 @@ export default function NavBar() {
           alt="Logo"
           width={50}
           height={50}
-          className="bg-blend-lighten"
+          className={`bg-blend-lighten ${
+            theme === "dark" ? "invert" : ""
+          } rounded-full`}
         />
         <h2 className="text-xl font-mono text-blue-600">juanqunintana.dev</h2>{" "}
       </NavbarBrand>
+      <NavbarContent justify="end">
+        <NavbarItem>
+          <ThemeSwitch />
+        </NavbarItem>
+      </NavbarContent>
     </Navbar>
   );
 }

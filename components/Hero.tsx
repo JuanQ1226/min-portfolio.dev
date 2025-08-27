@@ -1,6 +1,7 @@
 "use client";
 import { Spinner } from "@nextui-org/react";
 import React, { useRef, useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 import * as THREE from "three";
 import { AsciiEffect } from "three/addons/effects/AsciiEffect.js";
@@ -8,15 +9,37 @@ import { AsciiEffect } from "three/addons/effects/AsciiEffect.js";
 export default function Hero() {
   const canvas = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const { theme, systemTheme } = useTheme();
+  const updateThemeColorsRef = useRef<{
+    effect: any;
+    objects: Array<{
+      mesh: THREE.Mesh;
+      velocity: THREE.Vector3;
+      originalColor: number;
+      sphereMaterial?: THREE.MeshPhongMaterial;
+      cubeMaterial?: THREE.MeshPhongMaterial;
+    }>;
+  } | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Create the scene
+    setMounted(true);
+  }, []);
+
+  // Separate effect for scene creation (only runs once when mounted)
+  useEffect(() => {
+    if (typeof window !== "undefined" && mounted) {
+      // Clear previous content
       const currentCanvas = canvas.current;
+      if (currentCanvas) {
+        currentCanvas.innerHTML = "";
+      }
+
+      // Create the scene
       const scene = new THREE.Scene();
       // Create the camera
       const camera = new THREE.PerspectiveCamera(
-        70,
+        45, // Reduced FOV for better coverage
         window.innerWidth / (window.innerHeight / 3),
         0.1,
         100
@@ -25,65 +48,137 @@ export default function Hero() {
       const renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight / 3);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      // Create the effect
-      let effect = new AsciiEffect(renderer, " .:-+*=%@#", {
+
+      // Create the ASCII effect with block characters - use neutral colors initially
+      let effect = new AsciiEffect(renderer, " ░▒▓█▀▄▌▐■", {
         invert: true,
       });
       effect.setSize(window.innerWidth, window.innerHeight / 3);
-      effect.domElement.style.color = "gray";
-      effect.domElement.style.backgroundColor = "#e0e5eb";
-      // Append Ascii Effect to the DOM
+
+      // Append ASCII Effect to the DOM
       currentCanvas?.appendChild(effect.domElement);
-      camera.position.z = 3.2;
-      // Mouse Trail
-      let mouse = new THREE.Vector3(0, 0, 1);
-      const setPosition = (array: Float32Array) => {
-        for (let i = 0; i < 150; i++) {
-          const i3 = i * 3;
+      camera.position.z = 15; // Adjusted camera distance for better field coverage
 
-          const x = (i / (150 - 1) - 0.5) * 3;
-          const y = Math.sin(i / 10.5) * 0.5;
+      // Calculate actual viewport boundaries based on camera settings
+      const aspect = window.innerWidth / (window.innerHeight / 3);
+      const fov = 45 * (Math.PI / 180); // Convert to radians
+      const distance = 15;
+      const height = 2 * Math.tan(fov / 2) * distance;
+      const width = height * aspect;
 
-          array[i3] = x;
-          array[i3 + 1] = y;
-          array[i3 + 2] = 4;
-        }
-        return array;
+      // Mouse position
+      let mouse = new THREE.Vector2(0, 0);
+      const mouseWorld = new THREE.Vector3(0, 0, 0);
+
+      // Create bouncing objects
+      const objects: Array<{
+        mesh: THREE.Mesh;
+        velocity: THREE.Vector3;
+        originalColor: number;
+        sphereMaterial?: THREE.MeshPhongMaterial;
+        cubeMaterial?: THREE.MeshPhongMaterial;
+      }> = [];
+
+      // Boundaries for bouncing - calculated to match viewport
+      const bounds = {
+        x: width * 0.45, // Use 90% of actual viewport width
+        y: height * 0.45, // Use 90% of actual viewport height
+        z: 3, // Keep depth reasonable
       };
 
-      const trailGeometry = new THREE.BufferGeometry();
+      // Create spheres and cubes - increase count for better coverage
+      for (let i = 0; i < 16; i++) {
+        let geometry: THREE.BufferGeometry;
+        let material: THREE.MeshPhongMaterial;
 
-      const positions = setPosition(new Float32Array(150 * 3));
+        if (i % 2 === 0) {
+          // Create sphere - much larger for ASCII visibility
+          geometry = new THREE.SphereGeometry(1.2, 16, 16);
+          material = new THREE.MeshPhongMaterial({
+            color: 0x3b82f6, // Default color
+            flatShading: false,
+          });
+        } else {
+          // Create cube - much larger for ASCII visibility
+          geometry = new THREE.BoxGeometry(2, 2, 2);
+          material = new THREE.MeshPhongMaterial({
+            color: 0x10b981, // Default color
+            flatShading: true,
+          });
+        }
 
-      trailGeometry.setAttribute(
-        "position",
-        new THREE.BufferAttribute(positions, 3)
-      );
-      const trailMaterial = new THREE.PointsMaterial({
-        color: 0xffffff,
-        size: 0.4,
-      });
-      const trailPoints = new THREE.Points(trailGeometry, trailMaterial);
-      scene.add(trailPoints);
+        const mesh = new THREE.Mesh(geometry, material);
 
-      //Toroid and Sphere
-      const geometryTorus = new THREE.TorusGeometry(2.2, 0.2);
-      const materialTorus = new THREE.MeshPhongMaterial({ flatShading: false });
-      const geometrySphere = new THREE.SphereGeometry(1);
-      const materialSphere = new THREE.MeshPhongMaterial({ flatShading: true });
-      const torus = new THREE.Mesh(geometryTorus, materialTorus);
-      const sphere = new THREE.Mesh(geometrySphere, materialSphere);
+        // Random starting position - spread across calculated viewport
+        mesh.position.set(
+          (Math.random() - 0.5) * bounds.x * 1.9, // Use full calculated width
+          (Math.random() - 0.5) * bounds.y * 1.9, // Use full calculated height
+          (Math.random() - 0.5) * bounds.z
+        );
+
+        // Random starting velocity - increased for more dynamic movement
+        const velocity = new THREE.Vector3(
+          (Math.random() - 0.5) * 0.3,
+          (Math.random() - 0.5) * 0.3,
+          (Math.random() - 0.5) * 0.2
+        );
+
+        const objData: {
+          mesh: THREE.Mesh;
+          velocity: THREE.Vector3;
+          originalColor: number;
+          sphereMaterial?: THREE.MeshPhongMaterial;
+          cubeMaterial?: THREE.MeshPhongMaterial;
+        } = {
+          mesh,
+          velocity,
+          originalColor: material.color.getHex(),
+        };
+
+        if (i % 2 === 0) {
+          objData.sphereMaterial = material;
+        } else {
+          objData.cubeMaterial = material;
+        }
+
+        objects.push(objData);
+        scene.add(mesh);
+      }
+
       // Lights
-      const light1 = new THREE.DirectionalLight(0xffffff, 1.5);
-      const light2 = new THREE.DirectionalLight(0xffffff, 2);
-      light2.position.set(-10, 5, -2);
-      light1.position.set(10, -2, 2);
-      // Add to scene
-      scene.add(torus);
-      scene.add(sphere);
-      scene.add(light1);
-      scene.add(light2);
-      scene.add(trailPoints);
+      const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight.position.set(5, 5, 5);
+      scene.add(ambientLight);
+      scene.add(directionalLight);
+
+      // Function to update theme colors
+      const updateThemeColors = () => {
+        const currentTheme = theme === "system" ? systemTheme : theme;
+        const isDark = currentTheme === "dark";
+        
+        // Update ASCII effect colors
+        effect.domElement.style.color = isDark ? "#9ca3af" : "#6b7280";
+        effect.domElement.style.backgroundColor = isDark ? "#000000" : "#e0e5eb";
+        
+        // Update object colors
+        objects.forEach((obj, i) => {
+          if (i % 2 === 0 && obj.sphereMaterial) {
+            obj.sphereMaterial.color.setHex(isDark ? 0x4f46e5 : 0x3b82f6);
+          } else if (obj.cubeMaterial) {
+            obj.cubeMaterial.color.setHex(isDark ? 0x059669 : 0x10b981);
+          }
+        });
+      };
+
+      // Initial theme application
+      updateThemeColors();
+
+      // Store the effect and objects for the theme effect
+      updateThemeColorsRef.current = {
+        effect,
+        objects
+      };
 
       // Render the scene and camera
       effect.render(scene, camera);
@@ -93,42 +188,61 @@ export default function Hero() {
       const animateScene = () => {
         const tick = Date.now() - start;
         effect.render(scene, camera);
-        torus.rotation.x += 0.001;
-        torus.rotation.y += 0.006;
-        sphere.rotation.x -= 0.001;
-        sphere.rotation.y -= 0.006;
-        sphere.position.y = Math.sin(tick * 0.0009) * 0.2;
-        torus.position.x = Math.sin(tick * 0.00009) * 2;
-        sphere.position.x = Math.sin(tick * 0.00009) * 2;
-        for (let i = 0; i < 150; i++) {
-          const i3 = i * 3;
-          const previous = (i - 1) * 3;
 
-          if (i3 === 0) {
-            positions[0] = mouse.x;
-            positions[1] = mouse.y + 0.09;
-            positions[2] = mouse.z;
-          } else {
-            const currentPoint = new THREE.Vector3(
-              positions[i3],
-              positions[i3 + 1],
-              positions[i3 + 2]
-            );
+        // Update each object
+        objects.forEach((obj) => {
+          const { mesh, velocity } = obj;
 
-            const previousPoint = new THREE.Vector3(
-              positions[previous],
-              positions[previous + 1],
-              positions[previous + 2]
-            );
+          // Calculate repulsion from mouse - adjusted for larger area
+          const distance = mesh.position.distanceTo(mouseWorld);
+          const repulsionForce = 0.08; // Slightly stronger for larger area
+          const repulsionRadius = 6; // Larger radius for wider coverage
 
-            const lerpPoint = currentPoint.lerp(previousPoint, 0.9);
-
-            positions[i3] = lerpPoint.x;
-            positions[i3 + 1] = lerpPoint.y;
-            positions[i3 + 2] = mouse.z;
+          if (distance < repulsionRadius && distance > 0.1) {
+            const repulsion = new THREE.Vector3()
+              .subVectors(mesh.position, mouseWorld)
+              .normalize()
+              .multiplyScalar(
+                (repulsionForce * (repulsionRadius - distance)) /
+                  repulsionRadius
+              );
+            velocity.add(repulsion);
           }
-        }
-        trailGeometry.attributes.position.needsUpdate = true;
+
+          // Apply velocity to position
+          mesh.position.add(velocity);
+
+          // Bounce off boundaries
+          if (mesh.position.x > bounds.x || mesh.position.x < -bounds.x) {
+            velocity.x *= -0.8;
+            mesh.position.x = Math.max(
+              -bounds.x,
+              Math.min(bounds.x, mesh.position.x)
+            );
+          }
+          if (mesh.position.y > bounds.y || mesh.position.y < -bounds.y) {
+            velocity.y *= -0.8;
+            mesh.position.y = Math.max(
+              -bounds.y,
+              Math.min(bounds.y, mesh.position.y)
+            );
+          }
+          if (mesh.position.z > bounds.z || mesh.position.z < -bounds.z) {
+            velocity.z *= -0.8;
+            mesh.position.z = Math.max(
+              -bounds.z,
+              Math.min(bounds.z, mesh.position.z)
+            );
+          }
+
+          // Add slight rotation - reduced for less distraction
+          mesh.rotation.x += 0.005;
+          mesh.rotation.y += 0.005;
+
+          // Apply friction - less friction for more movement
+          velocity.multiplyScalar(0.995);
+        });
+
         window.requestAnimationFrame(animateScene);
       };
       animateScene();
@@ -144,61 +258,81 @@ export default function Hero() {
       };
 
       const handleMouseMove = (event: MouseEvent) => {
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y =
-          -(
-            event.clientY /
-            (window.innerHeight - (2 * window.innerHeight) / 3)
-          ) *
-            2 +
-          1.46;
-        mouse.z = 1;
+        // Get the canvas element bounds for accurate mouse positioning
+        const rect = currentCanvas?.getBoundingClientRect();
+        if (!rect) return;
 
-        var vector = new THREE.Vector3(mouse.x, mouse.y, mouse.z);
+        // Normalize mouse coordinates relative to the canvas
+        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        // Convert to world coordinates with correct camera setup
+        const vector = new THREE.Vector3(mouse.x, mouse.y, 0.5);
         vector.unproject(camera);
-        var dir = vector.sub(camera.position).normalize();
-        var distance = -camera.position.z / dir.z;
-        var pos = camera.position.clone().add(dir.multiplyScalar(distance));
-
-        mouse = pos;
+        const dir = vector.sub(camera.position).normalize();
+        const distance = -camera.position.z / dir.z;
+        mouseWorld.copy(camera.position).add(dir.multiplyScalar(distance));
       };
 
       window.addEventListener("resize", handleResize);
       window.addEventListener("mousemove", handleMouseMove);
       setLoading(false);
       return () => {
+        updateThemeColorsRef.current = null;
         currentCanvas?.removeChild(effect.domElement);
         window.removeEventListener("resize", handleResize);
         window.removeEventListener("mousemove", handleMouseMove);
+        renderer.dispose();
       };
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted]); // Only depend on mounted, not theme
+
+  // Separate effect for theme updates (only updates colors, doesn't recreate scene)
+  useEffect(() => {
+    if (mounted && updateThemeColorsRef.current) {
+      const { effect, objects } = updateThemeColorsRef.current;
+      const currentTheme = theme === "system" ? systemTheme : theme;
+      const isDark = currentTheme === "dark";
+      
+      // Update ASCII effect colors
+      effect.domElement.style.color = isDark ? "#9ca3af" : "#6b7280";
+      effect.domElement.style.backgroundColor = isDark ? "#000000" : "#e0e5eb";
+      
+      // Update object colors
+      objects.forEach((obj: any, i: number) => {
+        if (i % 2 === 0 && obj.sphereMaterial) {
+          obj.sphereMaterial.color.setHex(isDark ? 0x4f46e5 : 0x3b82f6);
+        } else if (obj.cubeMaterial) {
+          obj.cubeMaterial.color.setHex(isDark ? 0x059669 : 0x10b981);
+        }
+      });
+    }
+  }, [mounted, theme, systemTheme]);
 
   return (
     <>
       {loading && (
-        <div className="w-screen h-1/3 text-center py-28 bg-[#e0e5eb] ">
+        <div className="w-screen h-1/3 text-center py-28 bg-background">
           <Spinner size="lg">Loading...</Spinner>
         </div>
       )}
-      <div ref={canvas} className="cursor-none">
-        <div className=" font-semibold flex-col text-3xl w-screen h-1/3 justify-center items-center flex absolute text-center">
+      <div className="relative">
+        <div ref={canvas} className="cursor-none"></div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20">
           {!loading && (
-            <div className="p-10">
-              <h1>Hi I&apos;m Juan Quintana</h1>
-              <p className=" text-tiny">Welcome to my Website!</p>
+            <div className="p-8 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-lg border shadow-lg">
+              <h1 className="text-3xl font-bold text-black dark:text-white mb-2">
+                Hi I&apos;m Juan Quintana
+              </h1>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Welcome to my Website!
+              </p>
             </div>
           )}
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 100 10"
-        preserveAspectRatio="none"
-        className="w-full h-6 bg-[#e0e5eb] block"
-      >
-        <polygon className="fill-white" points="100 0 100 11 0 10" />
-      </svg>
     </>
   );
 }

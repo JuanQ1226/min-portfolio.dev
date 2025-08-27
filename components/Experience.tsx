@@ -48,6 +48,7 @@ const companyLogos: Record<string, string> = {
   "CoStar Group": "/costar_group_logo-removebg-preview.png",
   Google: "/Google__G__logo.svg.png",
   "Stackz LLC": "/logoStackBW-removebg-preview.png",
+  RUMblebots: "/rumblebots.jpeg",
 };
 
 export default function Experiences() {

@@ -25,12 +25,12 @@ export default function ResumeModal({
   isOpen,
   onOpenChange,
 }: ResumeModalProps) {
-  const resumeUrl = "/JuanQuintanaCV2025.pdf";
+  const resumeUrl = "/JuanQuintanaCV2025v2.pdf";
 
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = resumeUrl;
-    link.download = "JuanQuintanaCV2025.pdf";
+    link.download = "JuanQuintanaCV2025v2.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

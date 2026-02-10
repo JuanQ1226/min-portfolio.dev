@@ -1,72 +1,40 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
-    <>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 100 10"
-        preserveAspectRatio="none"
-        className="w-full h-6 bg-content1 block"
-      >
-        <polygon className="fill-content1" points="0 10 0 0 100 10" />
-      </svg>
-      <div className="bg-content1 w-screen bottom-0 left-0 pb-1">
-        <div className="flex flex-row gap-4 container mx-auto py-4 text-content1-foreground">
-          <div>
-            <div className="text-lg font-semibold italic mb-4">Contact Me.</div>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col">
-                <a
-                  href="mailto:juan.quintana5@upr.edu"
-                  className="text-primary hover:underline"
-                >
-                  <FontAwesomeIcon icon={faEnvelope} /> Email
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/juan-quintana-06468724b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  <FontAwesomeIcon icon={faLinkedin} /> LinkedIn
-                </a>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="text-lg font-semibold italic mb-4">
-              View My Projects.
-            </div>
-            <div className="flex flex-col gap-2">
-              <a
-                href="https://github.com/JuanQ1226"
-                target="_blank"
-                rel="noreferrer"
-                className="text-primary hover:underline"
-              >
-                <FontAwesomeIcon icon={faGithub} /> GitHub
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="text-tiny text-center text-content1-foreground">
-          Made with ❤️ using Next.js, Three.js,{" "}
+    <footer className="py-10 px-6 border-t border-border/30">
+      <div className="max-w-5xl mx-auto flex items-center justify-between">
+        <span className="text-xs text-muted-foreground/30">
+          Juan Quintana
+        </span>
+        <div className="flex items-center gap-5">
           <a
-            className="hover:underline"
-            href="https://github.com/mkosir/react-parallax-tilt"
+            href="https://github.com/JuanQ1226"
+            target="_blank"
+            rel="noreferrer"
+            className="text-muted-foreground/40 hover:text-foreground transition-colors"
+            aria-label="GitHub"
           >
-            react-parallax-tilt
-          </a>{" "}
-          and NextUI
-        </div>
-        <div className="text-tiny text-center text-content1-foreground">
-          © 2021 Juan Quintana. All rights reserved.
+            <Github size={16} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/juan-quintana-06468724b"
+            target="_blank"
+            rel="noreferrer"
+            className="text-muted-foreground/40 hover:text-foreground transition-colors"
+            aria-label="LinkedIn"
+          >
+            <Linkedin size={16} />
+          </a>
+          <a
+            href="mailto:juan.quintana5@upr.edu"
+            className="text-muted-foreground/40 hover:text-foreground transition-colors"
+            aria-label="Email"
+          >
+            <Mail size={16} />
+          </a>
         </div>
       </div>
-    </>
+    </footer>
   );
 }

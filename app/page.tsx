@@ -1,18 +1,17 @@
-import AboutMe from "@/components/AboutMe";
-import Hero from "../components/Hero";
-import Experiences from "@/components/Experience";
-import Education from "@/components/Education";
-import Projects from "@/components/Projects";
-import { Analytics } from "@vercel/analytics/react";
+import Hero from "@/components/Hero";
+import SkillsSection from "@/components/Skills";
+import ExperienceAccordion from "@/components/ExperienceAccordion";
+import EducationSection from "@/components/EducationSection";
+import ProjectGrid from "@/components/ProjectGrid";
+
 export default function Home() {
   return (
-    <main className="overflow-clip">
-      <Analytics />
+    <main>
       <Hero />
-      <AboutMe />
-      <Experiences />
-      <Education />
-      <Projects />
+      <SkillsSection />
+      <ExperienceAccordion />
+      <EducationSection />
+      <ProjectGrid />
     </main>
   );
 }

@@ -1,61 +1,56 @@
 "use client";
-import React, { use } from "react";
+
 import { useState, useEffect } from "react";
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-  Button,
-  Link,
-  Image,
-} from "@nextui-org/react";
-import { ThemeSwitch } from "./ThemeSwitch";
-import { get } from "http";
-import { useTheme } from "next-themes";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
-export default function NavBar() {
-  function getWidth() {
-    if (typeof window !== "undefined") {
-      return window.innerWidth;
-    } else {
-      return 1080;
-    }
-  }
+const navLinks = [
+  { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#projects" },
+];
 
-  const [screenWidth, setWidth] = useState(767);
-  const { theme, setTheme, systemTheme } = useTheme();
-  function handleResize(width: number) {
-    setWidth(width);
-  }
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    window.addEventListener("resize", () => handleResize(getWidth()));
-    handleResize(getWidth());
-  });
+    function handleScroll() {
+      setScrolled(window.scrollY > 50);
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <Navbar>
-      <NavbarBrand className="gap-2" as={Link} href={"/"}>
-        <Image
-          src={"Juan-logo.png"}
-          alt="Logo"
-          width={50}
-          height={50}
-          className={`bg-blend-lighten ${
-            theme === "dark" ? "invert" : ""
-          } rounded-full`}
-        />
-        <h2 className="text-xl font-mono text-blue-600">juanqunintana.dev</h2>{" "}
-      </NavbarBrand>
-      <NavbarContent justify="end">
-        <NavbarItem>
-          <ThemeSwitch />
-        </NavbarItem>
-      </NavbarContent>
-    </Navbar>
+    <nav
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        scrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border"
+          : "bg-transparent"
+      )}
+    >
+      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        <Link
+          href="/"
+          className="text-sm font-medium tracking-wide text-foreground hover:text-muted-foreground transition-colors"
+        >
+          JQ
+        </Link>
+        <div className="flex items-center gap-6">
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
   );
 }

@@ -1,33 +1,17 @@
-"use client";
-import React from "react";
-import { Button, useDisclosure, Tooltip } from "@nextui-org/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileText } from "@fortawesome/free-solid-svg-icons";
-import ResumeModal from "./ResumeModal";
+import { FileText } from "lucide-react";
 
 export default function FloatingResumeButton() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   return (
-    <>
-      {/* Fixed floating button - responsive positioning and sizing */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
-        <Tooltip content="View Resume" placement="left">
-          <Button
-            onPress={onOpen}
-            color="primary"
-            size="md"
-            className="sm:size-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 w-12 h-12 sm:w-14 sm:h-14"
-            isIconOnly
-            aria-label="Open Resume"
-          >
-            <FontAwesomeIcon icon={faFileText} className="text-sm sm:text-lg" />
-          </Button>
-        </Tooltip>
-      </div>
-
-      {/* Resume Modal */}
-      <ResumeModal isOpen={isOpen} onOpenChange={onOpenChange} />
-    </>
+    <div className="fixed bottom-6 right-6 z-50">
+      <a
+        href="/JuanQuintanaCV2025v2.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group w-12 h-12 flex items-center justify-center rounded-full border border-border bg-card text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-300 shadow-lg shadow-black/20"
+        aria-label="View Resume"
+      >
+        <FileText size={18} className="group-hover:scale-110 transition-transform duration-300" />
+      </a>
+    </div>
   );
 }

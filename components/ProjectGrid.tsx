@@ -18,7 +18,7 @@ const projects: Project[] = [
     description:
       "A B2B construction materials marketplace connecting contractors with suppliers. Features real-time RFQ negotiation, secure payments, and cloud-native architecture with AWS Amplify, Auth0, and DynamoDB.",
     image: "/zorzal.webp",
-    tech: ["React", "AWS Amplify", "DynamoDB", "Auth0", "TypeScript"],
+    tech: ["Next.js", "TypeScript", "SQL", "Python", "Terraform", "AWS"],
   },
   {
     title: "Maze Generator and Solver",

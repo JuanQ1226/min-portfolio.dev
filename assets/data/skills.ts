@@ -7,6 +7,7 @@ export const Skills: SkillEntry[] = [
   { skill: "Python", category: "Languages" },
   { skill: "JavaScript", category: "Languages" },
   { skill: "TypeScript", category: "Languages" },
+  { skill: "C", category: "Languages" },
   { skill: "C++", category: "Languages" },
   { skill: "C# .NET", category: "Languages" },
   { skill: "Java", category: "Languages" },
@@ -17,5 +18,6 @@ export const Skills: SkillEntry[] = [
   { skill: "AWS", category: "Frameworks & Tools" },
   { skill: "HTML", category: "Frameworks & Tools" },
   { skill: "CSS", category: "Frameworks & Tools" },
+  { skill: "Full Stack Development", category: "Concepts" },
   { skill: "Data Structures & Algorithms", category: "Concepts" },
 ];

@@ -7,7 +7,14 @@ export type ExperienceEntry = Readonly<{
 
 export const Experience: ExperienceEntry[] = [
   {
-    title: "Software Engineering Team Member",
+    title: "Associate Software Engineer",
+    company: "CoStar Group",
+    date: "July 2026 (Upcoming)",
+    description:
+      "",
+  },
+  {
+    title: "Software Engineer",
     company: "DRACO Rocketry, Apogee Control Division",
     date: "June 2025 - Present",
     description:

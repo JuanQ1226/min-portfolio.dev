@@ -9,11 +9,11 @@ const Education: EducationEntry[] = [
   {
     degree: "Computer Science and Engineering",
     institution: "University of Puerto Rico, Mayaguez",
-    date: "August 2021 - 2026 (exp.)",
+    date: "August 2021 - May 2026",
     highlights: [
-      "GPA: 3.78",
+      "GPA: 3.63",
       "Honor Student",
-      "Relevant Coursework: Data Structures, Introduction to Software Engineering, Algorithm Design and Analysis, Advanced Programming, Calculus 1, 2 and 3",
+      "Relevant Coursework: Data Structures, Software Engineering, Algorithm Design and Analysis, Advanced Programming, Computer Architecture, Operating Systems, Database Systems",
       "Google Tech Exchange Alumni",
     ],
   },
